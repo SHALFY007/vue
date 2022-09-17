@@ -1,18 +1,37 @@
 <template>
   <div id="app">
-    <input type="text" class="operand1" v-model="operand1">
+    <input type="text" class="operand1" v-model.number="operand1">
     <span class="operator"> {{ operator }} </span>
-    <input type="text" class="operand2" v-model="operand2">
+    <input type="text" class="operand2" v-model.number="operand2">
     <span> = </span>
-    <span class="res">{{ res }}</span>
+    <span class="res">{{ result }}</span>
     <br>
-    <button class="operator-button" v-on:click="operator = '+'">+</button>
+    <button class="operator-button" v-for="item in operators" v-on:click="operator = item">{{item}}</button>
+    <br>
+    <input type="checkbox" name="off" id="off" v-model="checkbox">
+    <label for="off">Отобразить экранную клавиатуру</label>
+    <div class="screenKeyboard" v-show="checkbox">
+      <button class="operator-button" v-for="item in numbers" v-if="picked == 'operand1' || picked == ''"
+        @click="operand1 = operand1+item">{{item}}</button>
+      <button class="operator-button" v-for="item in numbers" v-if="picked == 'operand2'"
+        @click="operand2 = operand2+item">{{item}}</button>
+      <button class="operator-button" v-if="picked == 'operand1' || picked == ''" @click="operand1 = ''">clear</button>
+      <button class="operator-button" v-if="picked == 'operand2'" @click="operand2 = ''">clear</button>
+      <form action="#">
+        <input type="radio" id="one" name="oper" value="operand1" v-model="picked">
+        <label for="one">Операнд 1</label>
+        <input type="radio" id="two" name="oper" value="operand2" v-model="picked">
+        <label for="two">Операнд 2</label>
+      </form>
+
+    </div>
+    <!--<button class=" operator-button" v-on:click="operator = '+'">+</button>
     <button class="operator-button" v-on:click="operator = '-'">-</button>
     <button class="operator-button" v-on:click="operator = '*'">*</button>
     <button class="operator-button" v-on:click="operator = '/'">/</button>
     <button class="operator-button" v-on:click="operator = '**'">**</button>
     <button class="operator-button" v-on:click="operator = '%'">%</button>
-    <button class="operator-button" v-on:click="calculate">=</button>
+    <button class="operator-button" v-on:click="calculate">=</button>-->
   </div>
 </template>
 
@@ -23,38 +42,45 @@ export default {
     return {
       operand1: '',
       operand2: '',
+      operators: ['+', '-', '/', '*', '**', '%'],
       operator: '+',
-      res: ''
+      checkbox: false,
+      numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      picked: '',
     }
   },
-  methods: {
-    calculate() {
+  computed: {
+    result() {
       switch (this.operator) {
         case '+':
-          this.res = Number(this.operand1) + Number(this.operand2);
+          return Number(this.operand1) + Number(this.operand2);
           break;
         case '-':
-          this.res = Number(this.operand1) - Number(this.operand2);
+          return Number(this.operand1) - Number(this.operand2);
           break;
         case '*':
-          this.res = Number(this.operand1) * Number(this.operand2);
+          return Number(this.operand1) * Number(this.operand2);
           break;
         case '/':
-          this.res = Number(this.operand1) / Number(this.operand2);
+          return Number(this.operand1) / Number(this.operand2);
           break;
         case '**':
-          this.res = Number(this.operand1) ** Number(this.operand2);
+          return Number(this.operand1) ** Number(this.operand2);
           break;
         case '%':
-          this.res = Math.floor(Number(this.operand1) / Number(this.operand2));
+          return Math.floor(Number(this.operand1) / Number(this.operand2));
           break;
         default:
-          this.res = Number(this.operand1) + Number(this.operand2);
+          return Number(this.operand1) + Number(this.operand2);
           break;
       }
     }
+  },
+  methods: {
+
   }
 }
+
 </script>
 
 <style lang="less">
