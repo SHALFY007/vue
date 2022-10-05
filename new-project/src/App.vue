@@ -11,8 +11,8 @@
     <input type="checkbox" name="off" id="off" v-model="checkbox">
     <label for="off">Отобразить экранную клавиатуру</label>
     <div class="screenKeyboard" v-show="checkbox">
-      <button class="operator-button" v-for="item in numbers" v-if="picked == 'operand1' || picked == ''"
-        @click="operand1 = operand1+item">{{item}}</button>
+      <button id="operand-button-op1" class="operator-button" v-for="item in numbers"
+        v-if="picked == 'operand1' || picked == ''" @click="operand1 = operand1+item">{{item}}</button>
       <button class="operator-button" v-for="item in numbers" v-if="picked == 'operand2'"
         @click="operand2 = operand2+item">{{item}}</button>
       <button class="operator-button" v-if="picked == 'operand1' || picked == ''" @click="operand1 = ''">clear</button>
